@@ -1,0 +1,93 @@
+{% include 'admin_header.html' %}
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="top-bar">
+                <div class="welcome-text">
+                    <h2>Welcome Back, Admin</h2>
+                    <p>Here's what's happening with your platform today</p>
+                </div>
+                <div class="user-actions">
+                    <div class="action-btn"><i class="bi bi-bell-fill"></i></div>
+                    <div class="action-btn"><i class="bi bi-gear-fill"></i></div>
+                    <div class="action-btn"><i class="bi bi-person-circle"></i></div>
+                </div>
+            </div>
+
+            <div class="content-header">
+                <h1>Admin Dashboard</h1>
+                <p>Manage your platform efficiently from one place</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon"><i class="bi bi-capsule"></i></div>
+                        <div class="stat-change up">↑ 12%</div>
+                    </div>
+                    <div class="stat-value">248</div>
+                    <div class="stat-label">Total Pharmacies</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon"><i class="bi bi-people-fill"></i></div>
+                        <div class="stat-change up">↑ 8%</div>
+                    </div>
+                    <div class="stat-value">1,429</div>
+                    <div class="stat-label">Active Users</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon"><i class="bi bi-clipboard-check"></i></div>
+                        <div class="stat-change down">↓ 3%</div>
+                    </div>
+                    <div class="stat-value">23</div>
+                    <div class="stat-label">Pending Complaints</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon"><i class="bi bi-graph-up-arrow"></i></div>
+                        <div class="stat-change up">↑ 24%</div>
+                    </div>
+                    <div class="stat-value">94.2%</div>
+                    <div class="stat-label">System Health</div>
+                </div>
+            </div>
+
+            <div class="dashboard-cards">
+                <div class="card" onclick="location.href='/admin_manage_pharmacies/'">
+                    <div class="card-image pharmacy"></div>
+                    <div class="card-content">
+                        <div class="card-icon"><i class="bi bi-capsule"></i></div>
+                        <h3>Manage Pharmacies</h3>
+                        <p>View, add, edit, and monitor all registered pharmacies in your system with advanced filtering options</p>
+                        <div class="card-arrow">→</div>
+                    </div>
+                </div>
+
+                <div class="card" onclick="location.href='/admin_view_complaints/'">
+                    <div class="card-image complaints"></div>
+                    <div class="card-content">
+                        <div class="card-icon"><i class="bi bi-clipboard-check"></i></div>
+                        <h3>Manage Complaints</h3>
+                        <p>Review, respond to, and resolve user complaints with priority tracking and status updates</p>
+                        <div class="card-arrow">→</div>
+                    </div>
+                </div>
+
+                <div class="card" onclick="location.href='/admin_manage_users/'">
+                    <div class="card-image users"></div>
+                    <div class="card-content">
+                        <div class="card-icon"><i class="bi bi-people-fill"></i></div>
+                        <h3>Manage Users</h3>
+                        <p>Control user accounts, permissions, roles, and access levels with comprehensive user management</p>
+                        <div class="card-arrow">→</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

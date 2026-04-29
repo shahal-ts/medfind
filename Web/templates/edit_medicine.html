@@ -1,0 +1,21 @@
+{% include 'pharmacy_header.html' %}
+<div class="container mt-5">
+  <h2>{% if medicine %}Edit{% else %}Add{% endif %} Medicine</h2>
+  <form method="POST">
+    {% csrf_token %}
+    <input type="text" name="medicine_name" placeholder="Medicine Name" value="{{ medicine.medicine_name|default_if_none:'' }}" class="form-control mb-2">
+    <input type="text" name="company_name" placeholder="Company Name" value="{{ medicine.company_name|default_if_none:'' }}" class="form-control mb-2">
+    <input type="text" name="medicine_type" placeholder="Type (Capsule/Syrup)" value="{{ medicine.medicine_type|default_if_none:'' }}" class="form-control mb-2">
+    <input type="date" name="manufacture_date" value="{{ medicine.manufacture_date|default_if_none:'' }}" class="form-control mb-2">
+    <input type="date" name="expiry_date" value="{{ medicine.expiry_date|default_if_none:'' }}" class="form-control mb-2">
+    <input type="number" name="quantity" value="{{ medicine.quantity|default_if_none:'' }}" class="form-control mb-2">
+    <input type="number" step="0.01" name="price" value="{{ medicine.price|default_if_none:'' }}" class="form-control mb-2">
+    <textarea name="details" placeholder="Details" class="form-control mb-2">{{ medicine.details|default_if_none:'' }}</textarea>
+    <div class="form-check mb-2">
+      <input type="checkbox" name="prescription_require" class="form-check-input" {% if medicine.prescription_require %}checked{% endif %}>
+      <label class="form-check-label">Prescription Required</label>
+    </div>
+    <button class="btn btn-success">{% if medicine %}Update{% else %}Add{% endif %}</button>
+  </form>
+</div>
+{% include 'footer.html' %}

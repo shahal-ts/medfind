@@ -1,0 +1,38 @@
+{% include 'pharmacy_header.html' %}
+
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Send Complaint</h2>
+
+  <form method="POST">
+    {% csrf_token %}
+    <div class="mb-3">
+      <textarea name="complaint" class="form-control" rows="4" placeholder="Write your complaint here"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Send Complaint</button>
+  </form>
+
+  <h3 class="mt-5">Your Complaints & Replies</h3>
+  <table class="table table-bordered mt-3">
+    <thead>
+      <tr>
+        <th>Complaint</th>
+        <th>Reply</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in complaints %}
+      <tr>
+        <td>{{ c.complaint }}</td>
+        <td>{% if c.reply %}{{ c.reply }}{% else %}<span class="text-muted">No reply yet</span>{% endif %}</td>
+        <td>{{ c.date }}</td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="3" class="text-center">No complaints sent</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% include 'footer.html' %}

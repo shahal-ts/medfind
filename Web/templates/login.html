@@ -1,0 +1,170 @@
+{##}
+{##}
+{#<!DOCTYPE html>#}
+{#<html>#}
+{#<head>#}
+{#    <title>Login</title>#}
+{#<link rel="stylesheet"#}
+{# href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">#}
+{##}
+{#</head>#}
+{#<body>#}
+{#{% include 'public_header.html' %}#}
+{##}
+{#<div class="container mt-5" style="max-width: 500px;">#}
+{#    <h2 class="text-center mb-4">Login</h2>#}
+{#    {% if messages %}#}
+{#        {% for message in messages %}#}
+{#            <div class="alert alert-danger">{{ message }}</div>#}
+{#        {% endfor %}#}
+{#    {% endif %}#}
+{#    <form method="POST">#}
+{#        {% csrf_token %}#}
+{#        <div class="mb-3">#}
+{#            <label>Username</label>#}
+{#            <input type="text" name="username" class="form-control" placeholder="Enter username" required>#}
+{#        </div>#}
+{#        <div class="mb-3">#}
+{#            <label>Password</label>#}
+{#            <input type="password" name="password" class="form-control" placeholder="Enter password" required>#}
+{#        </div>#}
+{#        <button type="submit" class="btn btn-primary w-100">Login</button>#}
+{#    </form>#}
+{#    <p class="mt-3 text-center">#}
+{#        Don't have an account? <a href="{% url 'pharmacy_register' %}">Register as Pharmacy</a>#}
+{#    </p>#}
+{#</div>#}
+{#</body>#}
+{#</html>#}
+{#{% include 'footer.html' %}#}
+
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+
+    <link rel="stylesheet"
+     href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            background: url("{% static 'images/testimonial-1.jpg' %}")
+                        no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+        }
+
+        /* Dark overlay */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            z-index: 0;
+        }
+
+        .login-card {
+            background-color: #FFFFFF;
+            border-radius: 8px;
+            padding: 30px;
+            margin-top: 80px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            border-top: 5px solid #A5C422;
+            position: relative;
+            z-index: 1;
+        }
+
+        h2 {
+            color: #A5C422;
+            font-weight: 600;
+        }
+
+        label {
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-control {
+            border-radius: 5px;
+            height: 40px;
+        }
+
+        .form-control:focus {
+            border-color: #A5C422;
+            box-shadow: 0 0 5px rgba(165, 196, 34, 0.5);
+        }
+
+        .btn-primary {
+            background-color: #A5C422;
+            border-color: #A5C422;
+            font-weight: 600;
+            border-radius: 5px;
+            height: 40px;
+        }
+
+        .btn-primary:hover {
+            background-color: #8fa81c;
+            border-color: #8fa81c;
+        }
+
+        a {
+            color: #A5C422;
+            font-weight: 500;
+        }
+
+        a:hover {
+            color: #8fa81c;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+{% include 'public_header.html' %}
+
+<div class="container" style="max-width: 500px;">
+    <div class="login-card">
+        <h2 class="text-center">Login</h2>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-danger">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" name="username" class="form-control"
+                       placeholder="Enter username" required>
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" class="form-control"
+                       placeholder="Enter password" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Login</button>
+        </form>
+
+        <p class="text-center" style="margin-top:15px;">
+            Don't have an account?
+            <a href="{% url 'pharmacy_register' %}">Register as Pharmacy</a>
+        </p>
+    </div>
+</div>
+
+{% include 'footer.html' %}
+</body>
+</html>
+

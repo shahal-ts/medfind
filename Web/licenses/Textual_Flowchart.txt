@@ -1,0 +1,34 @@
+[START]
+  |
+  V
+[User Uploads CSV] ----> (Analyze Metadata: Columns, Types, Samples)
+  |
+  V
+[User Asks a Question] (e.g., "Highest mark in English?")
+  |
+  V
++----------------------- ACTOR-CRITIC LOOP (Max 3 Retries) -----------------------+
+|                                                                                |
+|  [ACTOR: Gemini] ----> Generates SQL Query                                     |
+|        ^                       |                                               |
+|        |                       V                                               |
+|  [Error Feedback] <---- [CRITIC: DuckDB Execution]                             |
+|                                |                                               |
+|                        (If Success: Get Dataframe)                             |
+|                                |                                               |
++--------------------------------|-----------------------------------------------+
+                                 |
+                                 V
+                  +--------------+--------------+
+                  |                             |
+        [VISUALIZER: Matplotlib]         [EXPERT: Ollama/Llama]
+        (Creates Bar Chart if            (Converts Dataframe into
+         numbers are present)             Natural Language Summary)
+                  |                             |
+                  +--------------+--------------+
+                                 |
+                                 V
+[UI DISPLAY: Natural Answer + Graph + Raw Data Table]
+  |
+  V
+[END]

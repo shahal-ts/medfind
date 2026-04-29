@@ -1,0 +1,343 @@
+{#<!DOCTYPE html>#}
+{#<html>#}
+{#<head>#}
+{#    <title>Pharmacy Registration</title>#}
+{#    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">#}
+{#</head>#}
+{#<body>#}
+{##}
+{#{% include 'public_header.html' %}#}
+{##}
+{#<div class="container mt-5" style="max-width: 600px;">#}
+{#    <h2 class="text-center mb-4">Pharmacy Registration</h2>#}
+{#    {% if messages %}#}
+{#        {% for message in messages %}#}
+{#            <div class="alert alert-info">{{ message }}</div>#}
+{#        {% endfor %}#}
+{#    {% endif %}#}
+{#    <form method="POST" enctype="multipart/form-data">#}
+{#        {% csrf_token %}#}
+{#        <div class="mb-3">#}
+{#            <label>Username</label>#}
+{#            <input type="text" name="username" class="form-control" placeholder="Enter username" required>#}
+{#        </div>#}
+{#        <div class="mb-3">#}
+{#            <label>Password</label>#}
+{#            <input type="password" name="password" class="form-control" placeholder="Enter password" required>#}
+{#        </div>#}
+{#        <div class="mb-3">#}
+{#            <label>Pharmacy Name</label>#}
+{#            <input type="text" name="pharmacy_name" class="form-control" placeholder="Enter pharmacy name" required>#}
+{#        </div>#}
+{#        <div class="mb-3">#}
+{#            <label>Email</label>#}
+{#            <input type="email" name="email" class="form-control" placeholder="Enter email" required>#}
+{#        </div>#}
+{#        <div class="mb-3">#}
+{#            <label>Phone</label>#}
+{#            <input type="text" name="phone" class="form-control" placeholder="Enter phone number" required>#}
+{#        </div>#}
+{#        <div class="mb-3">#}
+{#            <label>Place</label>#}
+{#            <input type="text" name="place" class="form-control" placeholder="Enter place" required>#}
+{#        </div>#}
+{#        <div class="mb-3">#}
+{#            <label>Latitude</label>#}
+{#            <input type="text" name="latitude" class="form-control" placeholder="Enter latitude" required>#}
+{#        </div>#}
+{#        <div class="mb-3">#}
+{#            <label>Longitude</label>#}
+{#            <input type="text" name="longitude" class="form-control" placeholder="Enter longitude" required>#}
+{#        </div>#}
+{#        <div class="mb-3">#}
+{#            <label>License Proof</label>#}
+{#            <input type="file" name="license_proof" class="form-control" required>#}
+{#        </div>#}
+{#        <button type="submit" class="btn btn-success w-100">Register</button>#}
+{#    </form>#}
+{#</div>#}
+{#{% include 'footer.html' %}#}
+{##}
+{#</body>#}
+{#</html>#}
+
+
+
+
+
+
+{#{% load static %}#}
+{##}
+{#<!DOCTYPE html>#}
+{#<html>#}
+{#<head>#}
+{#    <title>Pharmacy Registration</title>#}
+{##}
+{#      <link rel="stylesheet"#}
+{#     href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">#}
+{##}
+{#    <style>#}
+{#        body {#}
+{#            min-height: 100vh;#}
+{#            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;#}
+{#           background: url("{% static 'images/news-image1.jpg' %}")#}
+{#            no-repeat center center fixed;#}
+{#            background-size: cover;#}
+{#            position: relative;#}
+{#        }#}
+{##}
+{#        /* Light overlay */#}
+{#        body::before {#}
+{#            content: "";#}
+{#            position: absolute;#}
+{#            inset: 0;#}
+{#            background: rgba(255, 255, 255, 0.88);#}
+{#            z-index: 0;#}
+{#        }#}
+{##}
+{#        .register-card {#}
+{#            background-color: #FFFFFF;#}
+{#            padding: 30px;#}
+{#            border-radius: 10px;#}
+{#            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);#}
+{#            border-top: 5px solid #A5C422;#}
+{#            position: relative;#}
+{#            z-index: 1;#}
+{#        }#}
+{##}
+{#        h2 {#}
+{#            color: #A5C422;#}
+{#            font-weight: 600;#}
+{#        }#}
+{##}
+{#        label {#}
+{#            font-weight: 500;#}
+{#            color: #333;#}
+{#        }#}
+{##}
+{#        .form-control {#}
+{#            border-radius: 6px;#}
+{#        }#}
+{##}
+{#        .form-control:focus {#}
+{#            border-color: #A5C422;#}
+{#            box-shadow: 0 0 6px rgba(165, 196, 34, 0.5);#}
+{#        }#}
+{##}
+{#        .btn-success {#}
+{#            background-color: #A5C422;#}
+{#            border-color: #A5C422;#}
+{#            font-weight: 600;#}
+{#            padding: 10px;#}
+{#        }#}
+{##}
+{#        .btn-success:hover {#}
+{#            background-color: #8fa81c;#}
+{#            border-color: #8fa81c;#}
+{#        }#}
+{##}
+{#        .alert {#}
+{#            border-radius: 6px;#}
+{#        }#}
+{#    </style>#}
+{#</head>#}
+{##}
+{#<body>#}
+{##}
+{##}
+{#{% include 'public_header.html' %}<br>#}
+{#<br>#}
+{#<br>#}
+{##}
+{#<div class="container mt-5" style="max-width: 600px;">#}
+{#    <div class="register-card">#}
+{#        <h2 class="text-center mb-4">Pharmacy Registration</h2>#}
+{##}
+{#        {% if messages %}#}
+{#            {% for message in messages %}#}
+{#                <div class="alert alert-info">{{ message }}</div>#}
+{#            {% endfor %}#}
+{#        {% endif %}#}
+{##}
+{#        <form method="POST" enctype="multipart/form-data">#}
+{#            {% csrf_token %}#}
+{##}
+{#            <div class="mb-3">#}
+{#                <label>Username</label>#}
+{#                <input type="text" name="username" class="form-control" required>#}
+{#            </div>#}
+{##}
+{#            <div class="mb-3">#}
+{#                <label>Password</label>#}
+{#                <input type="password" name="password" class="form-control" required>#}
+{#            </div>#}
+{##}
+{#            <div class="mb-3">#}
+{#                <label>Pharmacy Name</label>#}
+{#                <input type="text" name="pharmacy_name" class="form-control" required>#}
+{#            </div>#}
+{##}
+{#            <div class="mb-3">#}
+{#                <label>Email</label>#}
+{#                <input type="email" name="email" class="form-control" required>#}
+{#            </div>#}
+{##}
+{#            <div class="mb-3">#}
+{#                <label>Phone</label>#}
+{#                <input type="text" name="phone" class="form-control" required>#}
+{#            </div>#}
+{##}
+{#            <div class="mb-3">#}
+{#                <label>Place</label>#}
+{#                <input type="text" name="place" class="form-control" required>#}
+{#            </div>#}
+{##}
+{#            <div class="row">#}
+{#                <div class="col-md-6 mb-3">#}
+{#                    <label>Latitude</label>#}
+{#                    <input type="text" name="latitude" class="form-control" required>#}
+{#                </div>#}
+{#                <div class="col-md-6 mb-3">#}
+{#                    <label>Longitude</label>#}
+{#                    <input type="text" name="longitude" class="form-control" required>#}
+{#                </div>#}
+{#            </div>#}
+{##}
+{#            <div class="mb-3">#}
+{#                <label>License Proof</label>#}
+{#                <input type="file" name="license_proof" class="form-control" required>#}
+{#            </div>#}
+{##}
+{#            <button type="submit" class="btn btn-success w-100">#}
+{#                Register Pharmacy#}
+{#            </button>#}
+{#        </form>#}
+{#    </div>#}
+{#</div>#}
+{##}
+{#{% include 'footer.html' %}#}
+{##}
+{#</body>#}
+{#</html>#}
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Pharmacy Registration</title>
+
+    <!-- Leaflet CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .form-group {
+            margin-bottom: 12px;
+        }
+        input, button {
+            width: 100%;
+            padding: 8px;
+        }
+        #map {
+            height: 400px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Pharmacy Registration</h2>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="form-group">
+        <input type="text" name="pharmacy_name" placeholder="Pharmacy Name" required>
+    </div>
+
+    <div class="form-group">
+        <input type="text" name="username" placeholder="Username" required>
+    </div>
+
+    <div class="form-group">
+        <input type="password" name="password" placeholder="Password" required>
+    </div>
+
+    <div class="form-group">
+        <input type="email" name="email" placeholder="Email" required>
+    </div>
+
+    <div class="form-group">
+        <input type="text" name="phone" placeholder="Phone" required>
+    </div>
+
+    <div class="form-group">
+        <input type="text" name="place" placeholder="Place" required>
+    </div>
+
+    <div class="form-group">
+        <label>License Proof</label>
+        <input type="file" name="license_proof" required>
+    </div>
+
+    <!-- Hidden Latitude & Longitude -->
+    <input type="hidden" name="latitude" id="latitude">
+    <input type="hidden" name="longitude" id="longitude">
+
+    <!-- Optional display -->
+    <div class="form-group">
+        <input type="text" id="lat_display" placeholder="Latitude" readonly>
+    </div>
+
+    <div class="form-group">
+        <input type="text" id="lng_display" placeholder="Longitude" readonly>
+    </div>
+
+    <h4>Select Pharmacy Location</h4>
+    <div id="map"></div>
+
+    <br>
+    <button type="submit">Register</button>
+</form>
+
+<script>
+    // Default map center (India)
+    var map = L.map('map').setView([20.5937, 78.9629], 5);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    var marker;
+
+    map.on('click', function(e) {
+        var lat = e.latlng.lat;
+        var lng = e.latlng.lng;
+
+        if (marker) {
+            map.removeLayer(marker);
+        }
+
+        marker = L.marker([lat, lng]).addTo(map);
+
+        document.getElementById('latitude').value = lat;
+        document.getElementById('longitude').value = lng;
+
+        document.getElementById('lat_display').value = lat;
+        document.getElementById('lng_display').value = lng;
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Pharmacies - Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f0f9f4;
+            color: #1e5631;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 50%, #ffffff 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image:
+                url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1920&q=80'),
+                linear-gradient(135deg, rgba(46, 125, 50, 0.05) 0%, rgba(129, 199, 132, 0.05) 100%);
+            background-blend-mode: overlay;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
+        }
+
+        .bg-animation::after {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 20% 50%, rgba(76, 175, 80, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(129, 199, 132, 0.1) 0%, transparent 50%);
+            animation: bgMove 20s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes bgMove {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-50px, -50px); }
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 300px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(76, 175, 80, 0.2);
+            padding: 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 4px 0 30px rgba(46, 125, 50, 0.1);
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: rgba(76, 175, 80, 0.05);
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(76, 175, 80, 0.3);
+            border-radius: 10px;
+        }
+
+        .sidebar-header {
+            padding: 40px 30px;
+            border-bottom: 1px solid rgba(76, 175, 80, 0.2);
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(129, 199, 132, 0.1) 100%);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            box-shadow: 0 8px 20px rgba(76, 175, 80, 0.3);
+            animation: pulse 2s ease-in-out infinite;
+            color: #fff;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 8px 20px rgba(76, 175, 80, 0.3); }
+            50% { transform: scale(1.05); box-shadow: 0 8px 30px rgba(76, 175, 80, 0.5); }
+        }
+
+        .sidebar-header h2 {
+            color: #2e7d32;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .admin-role {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(76, 175, 80, 0.15);
+            color: #2e7d32;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #4caf50;
+            border-radius: 50%;
+            animation: blink 2s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .sidebar-nav {
+            padding: 30px 0;
+        }
+
+        .nav-section {
+            margin-bottom: 30px;
+        }
+
+        .nav-label {
+            padding: 0 30px 15px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: rgba(46, 125, 50, 0.6);
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 16px 30px;
+            color: rgba(30, 86, 49, 0.7);
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            font-size: 15px;
+            font-weight: 500;
+            margin: 4px 15px;
+            border-radius: 12px;
+        }
+
+        .nav-item:hover {
+            background: rgba(76, 175, 80, 0.1);
+            color: #2e7d32;
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.2) 0%, rgba(129, 199, 132, 0.2) 100%);
+            color: #2e7d32;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.2);
+        }
+
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 0;
+            width: 3px;
+            background: linear-gradient(180deg, #4caf50, #66bb6a);
+            border-radius: 0 2px 2px 0;
+            transition: height 0.3s ease;
+        }
+
+        .nav-item:hover::before,
+        .nav-item.active::before {
+            height: 70%;
+        }
+
+        .nav-icon {
+            width: 22px;
+            height: 22px;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .nav-badge {
+            margin-left: auto;
+            background: rgba(244, 67, 54, 0.15);
+            color: #d32f2f;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 700;
+            border: 1px solid rgba(244, 67, 54, 0.3);
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            margin-left: 300px;
+            padding: 40px 60px;
+        }
+
+        .page-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(76, 175, 80, 0.2);
+            box-shadow: 0 10px 40px rgba(76, 175, 80, 0.1);
+        }
+
+        .page-header h2 {
+            font-size: 36px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #2e7d32 0%, #4caf50 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .page-header p {
+            color: rgba(30, 86, 49, 0.6);
+            font-size: 16px;
+        }
+
+        .table-wrapper {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(76, 175, 80, 0.2);
+            box-shadow: 0 10px 40px rgba(76, 175, 80, 0.15);
+            overflow-x: auto;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-bottom: 0;
+        }
+
+        thead {
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.2) 0%, rgba(129, 199, 132, 0.2) 100%);
+        }
+
+        thead th {
+            padding: 20px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: #2e7d32;
+            border: none;
+            border-bottom: 2px solid rgba(76, 175, 80, 0.3);
+        }
+
+        thead th:first-child {
+            border-radius: 12px 0 0 0;
+        }
+
+        thead th:last-child {
+            border-radius: 0 12px 0 0;
+        }
+
+        tbody tr {
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(76, 175, 80, 0.1);
+        }
+
+        tbody tr:hover {
+            background: rgba(76, 175, 80, 0.08);
+            transform: scale(1.01);
+        }
+
+        tbody tr:last-child td:first-child {
+            border-radius: 0 0 0 12px;
+        }
+
+        tbody tr:last-child td:last-child {
+            border-radius: 0 0 12px 0;
+        }
+
+        tbody td {
+            padding: 18px;
+            text-align: center;
+            color: rgba(30, 86, 49, 0.9);
+            font-size: 14px;
+            font-weight: 500;
+            border: none;
+            vertical-align: middle;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border: 1px solid;
+        }
+
+        .bg-success {
+            background: rgba(76, 175, 80, 0.15);
+            color: #2e7d32;
+            border-color: rgba(76, 175, 80, 0.4);
+        }
+
+        .bg-warning {
+            background: rgba(255, 152, 0, 0.15);
+            color: #e65100;
+            border-color: rgba(255, 152, 0, 0.4);
+        }
+
+        .bg-danger {
+            background: rgba(244, 67, 54, 0.15);
+            color: #c62828;
+            border-color: rgba(244, 67, 54, 0.4);
+        }
+
+        .text-dark {
+            color: inherit !important;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.5);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #f44336 0%, #e57373 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(244, 67, 54, 0.5);
+        }
+
+        .btn-sm {
+            padding: 8px 20px;
+            font-size: 12px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 80px;
+            }
+
+            .sidebar-header h2,
+            .admin-role,
+            .nav-label,
+            .nav-item span {
+                display: none;
+            }
+
+            .logo-container {
+                justify-content: center;
+            }
+
+            .nav-item {
+                justify-content: center;
+                padding: 16px;
+            }
+
+            .nav-icon {
+                margin-right: 0;
+            }
+
+            .main-content {
+                margin-left: 80px;
+                padding: 30px 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-header h2 {
+                font-size: 28px;
+            }
+
+            .table-wrapper {
+                padding: 20px;
+            }
+
+            .table {
+                font-size: 12px;
+            }
+
+            thead th {
+                padding: 15px 10px;
+                font-size: 11px;
+            }
+
+            tbody td {
+                padding: 12px 8px;
+            }
+
+            .btn-sm {
+                padding: 6px 12px;
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-container">
+                    <div class="logo"><i class="bi bi-lightning-charge-fill"></i></div>
+                    <div>
+                        <h2>Admin</h2>
+                        <div class="admin-role">
+                            <span class="status-dot"></span>
+                            <span>Super Admin</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-label">Main</div>
+                    <a href="#" class="nav-item">
+                        <div class="nav-icon"><i class="bi bi-house-door-fill"></i></div>
+                        <span>Dashboard</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-label">Management</div>
+                    <a href="/admin_manage_pharmacies/" class="nav-item active">
+                        <div class="nav-icon"><i class="bi bi-capsule"></i></div>
+                        <span>Pharmacies</span>
+                    </a>
+                    <a href="/admin_view_complaints/" class="nav-item">
+                        <div class="nav-icon"><i class="bi bi-clipboard-check"></i></div>
+                        <span>Complaints</span>
+                        <span class="nav-badge">3</span>
+                    </a>
+                    <a href="/admin_manage_users/" class="nav-item">
+                        <div class="nav-icon"><i class="bi bi-people-fill"></i></div>
+                        <span>Users</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h2><i class="bi bi-capsule"></i> Manage Pharmacies</h2>
+                <p>Review, approve, and manage all pharmacy registrations</p>
+            </div>
+
+            <div class="table-wrapper">
+                <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Pharmacy Name</th>
+                            <th>Owner</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for pharmacy in pharmacies %}
+                        <tr id="row-{{ pharmacy.id }}">
+                            <td>{{ pharmacy.id }}</td>
+                            <td>{{ pharmacy.pharmacy_name }}</td>
+                            <td>{{ pharmacy.owner_name }}</td>
+                            <td>{{ pharmacy.email }}</td>
+                            <td>{{ pharmacy.phone }}</td>
+                            <td id="status-{{ pharmacy.id }}">
+                                {% if pharmacy.approval_status == 1 %}
+                                    <span class="badge bg-success">✅ Approved</span>
+                                {% else %}
+                                    <span class="badge bg-warning text-dark">Pending</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if not pharmacy.is_approved %}
+                                    <button class="btn btn-success btn-sm" onclick="updateStatus({{ pharmacy.id }}, 'approve')">Approve</button>
+                                {% else %}
+                                    <button class="btn btn-danger btn-sm" onclick="updateStatus({{ pharmacy.id }}, 'reject')">Reject</button>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center">No pharmacies found</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script>
+    function updateStatus(pharmacyId, action) {
+        fetch(`/${action}_pharmacy/${pharmacyId}/`)
+            .then(response => {
+                if (response.ok) {
+                    const statusCell = document.getElementById(`status-${pharmacyId}`);
+                    const row = document.getElementById(`row-${pharmacyId}`);
+
+                    if (action === 'approve') {
+                        statusCell.innerHTML = '<span class="badge bg-success">✅ Approved</span>';
+                        row.querySelector('td:last-child').innerHTML =
+                            '<button class="btn btn-danger btn-sm" onclick="updateStatus(' + pharmacyId + ', \'reject\')">Reject</button>';
+                    } else {
+                        statusCell.innerHTML = '<span class="badge bg-danger">❌ Rejected</span>';
+                        row.querySelector('td:last-child').innerHTML =
+                            '<button class="btn btn-success btn-sm" onclick="updateStatus(' + pharmacyId + ', \'approve\')">Approve</button>';
+                    }
+                }
+            });
+    }
+    </script>
+</body>
+</html>
